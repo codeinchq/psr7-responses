@@ -1,6 +1,6 @@
 # PSR-7 responses
 
-This library provides a collection of [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible responses based on the [Guzzle implementation](https://github.com/guzzle/psr7).
+This PHP 7.2 library provides a collection of [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible responses based on the [Guzzle implementation](https://github.com/guzzle/psr7).
 
 
 ## Installation
