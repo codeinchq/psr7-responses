@@ -21,7 +21,7 @@
 //
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
-use GuzzleHttp\Psr7\Response;
+use CodeInc\ErrorDisplay\HtmlErrorRenderer;
 
 
 /**
@@ -29,13 +29,22 @@ use GuzzleHttp\Psr7\Response;
  *
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
- * @todo
  */
-class ErrorResponse extends Response {
-	public function __construct(\Throwable $error, int $status = 200, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+class ErrorResponse extends HtmlResponse {
+	/**
+	 * ErrorResponse constructor.
+	 *
+	 * @param \Throwable $throwable
+	 * @param null|string $charset
+	 * @param int $status
+	 * @param array $headers
+	 * @param string $version
+	 * @param null|string $reason
+	 */
+	public function __construct(\Throwable $throwable, ?string $charset = null, int $status = 200,
+		array $headers = [], string $version = '1.1', ?string $reason = null)
 	{
-		//todo
-		//parent::__construct($status, $headers, $body, $version, $reason);
+		parent::__construct((new HtmlErrorRenderer($throwable))->get(),
+			$charset, $status, $headers, $version, $reason);
 	}
 }
