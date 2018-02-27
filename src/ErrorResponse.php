@@ -29,7 +29,7 @@ use GuzzleHttp\Psr7\Response;
  *
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
- * @todo 
+ * @todo
  */
 class ErrorResponse extends Response {
 	public function __construct(\Throwable $error, int $status = 200, array $headers = [],
