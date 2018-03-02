@@ -21,55 +21,46 @@
 //
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
+use GuzzleHttp\Psr7\Response;
+use function GuzzleHttp\Psr7\stream_for;
+use Psr\Http\Message\StreamInterface;
 
 
 /**
- * Class FileResponse
+ * Class StreamResponse
  *
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class FileResponse extends StreamResponse {
+class StreamResponse extends Response {
 	/**
-	 * FileResponse constructor.
+	 * StreamResponse constructor.
 	 *
-	 * @param string $filePath
+	 * @param resource|string|null|int|float|bool|StreamInterface|callable $resource
 	 * @param null|string $fileName
 	 * @param null|string $mimeType
+	 * @param int|null $contentLength
 	 * @param bool|null $asAttachment
 	 * @param int $status
 	 * @param array $headers
 	 * @param string $version
 	 * @param null|string $reason
-	 * @throws ResponseException
 	 */
-	public function __construct(string $filePath, ?string $fileName = null, ?string $mimeType = null,
-		?bool $asAttachment = null, int $status = 200, array $headers = [],
+	public function __construct($resource, ?string $mimeType = null, ?int $contentLength = null,
+		?string $fileName = null, ?bool $asAttachment = null, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
-		if (!is_file($filePath)) {
-			throw new ResponseException(
-				sprintf("The path \"%s\" is not a file or does not exist", $filePath),
-				$this
-			);
+		if ($mimeType) {
+			$headers["Content-Type"] = $mimeType;
 		}
-		if (($f = fopen($filePath, "r")) === false) {
-			throw new ResponseException(
-				sprintf("Unable to open the file \"%s\" for reading", $filePath),
-				$this
-			);
+		$headers["Content-Disposition"] = $asAttachment !== false ? "attachment" : "inline";
+		if ($fileName) {
+			$headers["Content-Disposition"] .= sprintf("; filename=\"%s\"", $fileName);
+		}
+		if ($contentLength !== null) {
+			$headers["Content-Length"] = $contentLength;
 		}
 
-		parent::__construct(
-			$f,
-			$mimeType ?? mime_content_type($filePath),
-			filesize($filePath) ?: null,
-			$fileName ?? basename($filePath),
-			$asAttachment,
-			$status,
-			$headers,
-			$version,
-			$reason
-		);
+		parent::__construct($status, $headers, stream_for($resource), $version, $reason);
 	}
 }
