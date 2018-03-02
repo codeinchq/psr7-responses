@@ -23,7 +23,6 @@ declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
-use Psr\Http\Message\StreamInterface;
 
 
 /**
@@ -36,24 +35,24 @@ class StreamResponse extends Response {
 	/**
 	 * StreamResponse constructor.
 	 *
-	 * @param resource|string|null|int|float|bool|StreamInterface|callable $resource
-	 * @param null|string $fileName
+	 * @param $resource
 	 * @param null|string $mimeType
 	 * @param int|null $contentLength
-	 * @param bool|null $asAttachment
+	 * @param null|string $fileName
+	 * @param bool $asAttachment
 	 * @param int $status
 	 * @param array $headers
 	 * @param string $version
 	 * @param null|string $reason
 	 */
 	public function __construct($resource, ?string $mimeType = null, ?int $contentLength = null,
-		?string $fileName = null, ?bool $asAttachment = null, int $status = 200, array $headers = [],
+		?string $fileName = null, bool $asAttachment = false, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
 		if ($mimeType) {
 			$headers["Content-Type"] = $mimeType;
 		}
-		$headers["Content-Disposition"] = $asAttachment !== false ? "attachment" : "inline";
+		$headers["Content-Disposition"] = $asAttachment ? "attachment" : "inline";
 		if ($fileName) {
 			$headers["Content-Disposition"] .= sprintf("; filename=\"%s\"", $fileName);
 		}

@@ -36,7 +36,7 @@ class FileResponse extends StreamResponse {
 	 * @param string $filePath
 	 * @param null|string $fileName
 	 * @param null|string $mimeType
-	 * @param bool|null $asAttachment
+	 * @param bool $asAttachment
 	 * @param int $status
 	 * @param array $headers
 	 * @param string $version
@@ -44,7 +44,7 @@ class FileResponse extends StreamResponse {
 	 * @throws ResponseException
 	 */
 	public function __construct(string $filePath, ?string $fileName = null, ?string $mimeType = null,
-		?bool $asAttachment = null, int $status = 200, array $headers = [],
+		bool $asAttachment = true, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
 		if (!is_file($filePath)) {
