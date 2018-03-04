@@ -21,6 +21,7 @@
 //
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
+use Hoa\Mime\Mime;
 
 
 /**
@@ -62,7 +63,7 @@ class FileResponse extends StreamResponse {
 
 		parent::__construct(
 			$f,
-			$mimeType ?? mime_content_type($filePath),
+			$mimeType ?? Mime::getMimeFromExtension($filePath),
 			filesize($filePath) ?: null,
 			$fileName ?? basename($filePath),
 			$asAttachment,
