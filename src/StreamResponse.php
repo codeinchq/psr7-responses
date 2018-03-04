@@ -63,6 +63,6 @@ class StreamResponse extends Response {
 			$headers["Content-Length"] = $contentLength;
 		}
 
-		parent::__construct($status, $headers, stream_for($resource), $version, $reason);
+		parent::__construct($status, $headers, $stream, $version, $reason);
 	}
 }
