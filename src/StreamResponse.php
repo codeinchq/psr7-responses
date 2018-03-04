@@ -49,6 +49,9 @@ class StreamResponse extends Response {
 		?string $fileName = null, bool $asAttachment = false, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
+		$stream = stream_for($resource);
+
+		// adding headers
 		if ($mimeType) {
 			$headers["Content-Type"] = $mimeType;
 		}
@@ -56,7 +59,7 @@ class StreamResponse extends Response {
 		if ($fileName) {
 			$headers["Content-Disposition"] .= sprintf("; filename=\"%s\"", $fileName);
 		}
-		if ($contentLength !== null) {
+		if ($contentLength !== null || ($contentLength = $stream->getSize()) !== null) {
 			$headers["Content-Length"] = $contentLength;
 		}
 
