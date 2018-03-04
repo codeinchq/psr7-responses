@@ -62,10 +62,13 @@ class FileResponse extends StreamResponse {
 				$this
 			);
 		}
+		if (!$fileName) {
+			$fileName = basename($filePath);
+		}
 
 		// looking up the mime type using
-		if (!$mimeType && ($dotPost = strrpos(basename($fileName), ".")) !== false) {
-			$mimeType = Mime::getMimeFromExtension(substr(basename($fileName), $dotPost + 1));
+		if (!$mimeType && $fileName && ($dotPost = strrpos($fileName, ".")) !== false) {
+			$mimeType = Mime::getMimeFromExtension(substr($fileName, $dotPost + 1));
 		}
 
 		parent::__construct(
