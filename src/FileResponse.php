@@ -31,6 +31,8 @@ use Hoa\Mime\Mime;
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class FileResponse extends StreamResponse {
+	public const DEFAULT_MIME_TYPE = 'application/octet-stream';
+
 	/**
 	 * FileResponse constructor.
 	 *
@@ -61,9 +63,14 @@ class FileResponse extends StreamResponse {
 			);
 		}
 
+		// looking up the mime type using
+		if (!$mimeType && ($dotPost = strrpos(basename($fileName), ".")) !== false) {
+			$mimeType = Mime::getMimeFromExtension(substr(basename($fileName), $dotPost + 1));
+		}
+
 		parent::__construct(
 			$f,
-			$mimeType ?? Mime::getMimeFromExtension($filePath),
+			$mimeType ?? self::DEFAULT_MIME_TYPE,
 			filesize($filePath) ?: null,
 			$fileName ?? basename($filePath),
 			$asAttachment,
@@ -72,5 +79,10 @@ class FileResponse extends StreamResponse {
 			$version,
 			$reason
 		);
+	}
+
+	private function getFileMimeType(string $fileName, ?string $mimeType):string
+	{
+
 	}
 }
