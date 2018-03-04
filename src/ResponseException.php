@@ -50,7 +50,7 @@ class ResponseException extends Exception {
 		?Throwable $previous = null)
 	{
 		$this->response = $response;
-		parent::__construct($message, $code, $previous);
+		parent::__construct($message, $code ?? 0, $previous);
 	}
 
 	/**
