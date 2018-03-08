@@ -1,6 +1,6 @@
 {
   "name": "codeinc/lib-psr7responses",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "A collection of PSR-7 responses",
   "homepage": "https://github.com/CodeIncHQ/lib-psr7responses",
   "type": "library",
@@ -9,7 +9,7 @@
     "php": ">=7.1",
     "psr/http-message": "^1.0",
     "guzzlehttp/psr7": "^1.4",
-    "codeinchq/lib-errordisplay": "^1.1",
+    "codeinc/lib-errordisplay": "^1.1",
     "hoa/mime": "3.17.01.10"
   },
   "require-dev": {
@@ -30,8 +30,8 @@
     }
   ],
   "suggest": {
-    "codeinchq/lib-psr7responsesender": "A library to send PSR-7 responses to the web browser",
-    "codeinchq/lib-psr15middlewares": "Provides a collection of PSR15 middlewares",
+    "codeinc/lib-psr7responsesender": "A library to send PSR-7 responses to the web browser",
+    "codeinc/lib-psr15middlewares": "Provides a collection of PSR15 middlewares",
     "hansott/psr7-cookies": "Adds cookies into a PSR7 response",
     "micheh/psr7-cache": "Adds cache HTTP headers to responses"
   },
