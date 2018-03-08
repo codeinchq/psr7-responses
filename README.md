@@ -14,3 +14,8 @@ composer require codeinc/lib-psr7responses
 ## Recommended libraries
 
 The [`lib-psr7responsesender`](https://github.com/CodeIncHQ/lib-psr7responsesender) library is recommended to stream PSR-7 responses to the web browser.
+
+
+# License
+
+The library is published under the MIT license (see [`LICENSE`](LICENSE) file).
