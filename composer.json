@@ -1,8 +1,8 @@
 {
-  "name": "codeinchq/lib-psr7responses",
+  "name": "codeinc/lib-psr7responses",
   "version": "1.1.12",
   "description": "A collection of PSR-7 responses",
-  "homepage": "https://github.com/codeinchq/lib-psr7responses",
+  "homepage": "https://github.com/CodeIncHQ/lib-psr7responses",
   "type": "library",
   "license": "MIT",
   "require": {
@@ -30,7 +30,10 @@
     }
   ],
   "suggest": {
-    "codeinchq/lib-psr7responsesender": "A library to send PSR-7 responses to the web browser"
+    "codeinchq/lib-psr7responsesender": "A library to send PSR-7 responses to the web browser",
+    "codeinchq/lib-psr15middlewares": "Provides a collection of PSR15 middlewares",
+    "hansott/psr7-cookies": "Adds cookies into a PSR7 response",
+    "micheh/psr7-cache": "Adds cache HTTP headers to responses"
   },
   "config": {
     "preferred-install": {

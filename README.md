@@ -5,10 +5,10 @@ This PHP 7.2 library provides a collection of [PSR-7](https://www.php-fig.org/ps
 
 ## Installation
 
-This library is available through [Packagist](https://packagist.org/packages/codeinchq/lib-psr7responses) and can be installed using [Composer](https://getcomposer.org/): 
+This library is available through [Packagist](https://packagist.org/packages/codeinc/lib-psr7responses) and can be installed using [Composer](https://getcomposer.org/): 
 
 ```bash
-composer require codeinchq/lib-psr7responses
+composer require codeinc/lib-psr7responses
 ```
 
 ## Recommended libraries
