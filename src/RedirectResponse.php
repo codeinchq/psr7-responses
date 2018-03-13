@@ -17,7 +17,7 @@
 // Author:   Joan Fabrégat <joan@codeinc.fr>
 // Date:     23/02/2018
 // Time:     21:41
-// Project:  lib-psr7responses
+// Project:  Psr7Responses
 //
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
