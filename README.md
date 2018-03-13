@@ -5,17 +5,17 @@ This PHP 7.2 library provides a collection of [PSR-7](https://www.php-fig.org/ps
 
 ## Installation
 
-This library is available through [Packagist](https://packagist.org/packages/codeinc/lib-psr7responses) and can be installed using [Composer](https://getcomposer.org/): 
+This library is available through [Packagist](https://packagist.org/packages/codeinc/psr7-responses) and can be installed using [Composer](https://getcomposer.org/): 
 
 ```bash
-composer require codeinc/lib-psr7responses
+composer require codeinc/psr7-responses
 ```
 
 ## Recommended libraries
 
-The [`lib-psr7responsesender`](https://github.com/CodeIncHQ/lib-psr7responsesender) library is recommended to stream PSR-7 responses to the web browser.
+The [`codeinc/psr7-response-sender`](https://github.com/CodeIncHQ/Psr7ResponseSender) library is recommended to stream PSR-7 responses to the web browser.
 
 
-# License
+## License
 
 The library is published under the MIT license (see [`LICENSE`](LICENSE) file).
