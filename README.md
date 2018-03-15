@@ -13,7 +13,8 @@ composer require codeinc/psr7-responses
 
 ## Recommended libraries
 
-The [`codeinc/psr7-response-sender`](https://github.com/CodeIncHQ/Psr7ResponseSender) library is recommended to stream PSR-7 responses to the web browser.
+* [`codeinc/psr7-response-sender`](https://github.com/CodeIncHQ/Psr7ResponseSender) is recommended to stream PSR-7 responses to the web browser.
+* [`codinc/router`](https://github.com/CodeIncHQ/Router) is recommended as a router and request handler PSR-15
 
 
 ## License
