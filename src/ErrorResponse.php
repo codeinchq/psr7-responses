@@ -21,7 +21,7 @@
 //
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
-use CodeInc\ErrorDisplay\HtmlErrorRenderer;
+use CodeInc\ErrorRenderer\HtmlErrorRenderer;
 
 
 /**
@@ -41,8 +41,9 @@ class ErrorResponse extends HtmlResponse {
 	 * @param string $version
 	 * @param null|string $reason
 	 */
-	public function __construct(\Throwable $throwable, ?string $charset = null, int $status = 200,
-		array $headers = [], string $version = '1.1', ?string $reason = null)
+	public function __construct(\Throwable $throwable, ?string $charset = null,
+        int $status = 200, array $headers = [], string $version = '1.1',
+        ?string $reason = null)
 	{
 		parent::__construct((new HtmlErrorRenderer($throwable))->get(),
 			$charset, $status, $headers, $version, $reason);
