@@ -22,16 +22,15 @@
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 
-
 /**
- * Class ForbiddenResponse
+ * Class UnauthorizedResponse
  *
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ForbiddenResponse extends HtmlResponse {
+class UnauthorizedResponse extends HtmlResponse {
     /**
-     * ForbiddenResponse constructor.
+     * UnauthorizedResponse constructor.
      *
      * @param string|null $html
      * @param null|string $charset
@@ -43,6 +42,6 @@ class ForbiddenResponse extends HtmlResponse {
 	public function __construct(string $html = null, ?string $charset = null, array $headers = [],
 		$body = null, string $version = '1.1', ?string $reason = null)
 	{
-		parent::__construct($html ?? '', $charset, 403, $headers, $version, $reason);
+		parent::__construct($html ?? '', $charset, 401, $headers, $version, $reason);
 	}
 }
