@@ -30,16 +30,16 @@ namespace CodeInc\Psr7Responses;
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
 class ForbiddenResponse extends HtmlResponse {
-	/**
-	 * NotFoundResponse constructor.
-	 *
-	 * @param string|null $html
-	 * @param null|string $charset
-	 * @param array $headers
-	 * @param null $body
-	 * @param string $version
-	 * @param null|string $reason
-	 */
+    /**
+     * ForbiddenResponse constructor.
+     *
+     * @param string|null $html
+     * @param null|string $charset
+     * @param array $headers
+     * @param null $body
+     * @param string $version
+     * @param null|string $reason
+     */
 	public function __construct(string $html = null, ?string $charset = null, array $headers = [],
 		$body = null, string $version = '1.1', ?string $reason = null)
 	{
