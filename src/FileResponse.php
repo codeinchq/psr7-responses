@@ -21,7 +21,7 @@
 //
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
-use Hoa\Mime\Mime;
+use CodeInc\MediaTypes\MediaTypes;
 
 
 /**
@@ -30,22 +30,24 @@ use Hoa\Mime\Mime;
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class FileResponse extends StreamResponse {
+class FileResponse extends StreamResponse
+{
 	public const DEFAULT_MIME_TYPE = 'application/octet-stream';
 
-	/**
-	 * FileResponse constructor.
-	 *
-	 * @param string $filePath
-	 * @param null|string $fileName
-	 * @param null|string $mimeType
-	 * @param bool $asAttachment
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 * @throws ResponseException
-	 */
+    /**
+     * FileResponse constructor.
+     *
+     * @param string $filePath
+     * @param null|string $fileName
+     * @param null|string $mimeType
+     * @param bool $asAttachment
+     * @param int $status
+     * @param array $headers
+     * @param string $version
+     * @param null|string $reason
+     * @throws ResponseException
+     * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
+     */
 	public function __construct(string $filePath, ?string $fileName = null, ?string $mimeType = null,
 		bool $asAttachment = true, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
@@ -67,9 +69,9 @@ class FileResponse extends StreamResponse {
 		}
 
 		// looking up the mime type using
-		if (!$mimeType && $fileName && ($dotPost = strrpos($fileName, ".")) !== false) {
-			$mimeType = Mime::getMimeFromExtension(substr($fileName, $dotPost + 1));
-		}
+        if (!$mimeType && $fileName) {
+		    $mimeType = MediaTypes::getFilenameMediaType($fileName);
+        }
 
 		parent::__construct(
 			$f,
@@ -82,10 +84,5 @@ class FileResponse extends StreamResponse {
 			$version,
 			$reason
 		);
-	}
-
-	private function getFileMimeType(string $fileName, ?string $mimeType):string
-	{
-
 	}
 }
