@@ -30,7 +30,14 @@ use CodeInc\ErrorRenderer\HtmlErrorRenderer;
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ErrorResponse extends HtmlResponse {
+class ErrorResponse extends HtmlResponse
+{
+    /**
+     * @var \Throwable
+     */
+    private $throwable;
+
+
 	/**
 	 * ErrorResponse constructor.
 	 *
@@ -45,7 +52,17 @@ class ErrorResponse extends HtmlResponse {
         int $status = 200, array $headers = [], string $version = '1.1',
         ?string $reason = null)
 	{
+	    $this->throwable = $throwable;
 		parent::__construct((new HtmlErrorRenderer($throwable))->get(),
 			$charset, $status, $headers, $version, $reason);
 	}
+
+
+    /**
+     * @return \Throwable
+     */
+    public function getThrowable():\Throwable
+    {
+        return $this->throwable;
+    }
 }
