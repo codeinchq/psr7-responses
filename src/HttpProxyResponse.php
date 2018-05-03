@@ -35,6 +35,14 @@ use function GuzzleHttp\Psr7\stream_for;
  */
 class HttpProxyResponse extends Response
 {
+    protected const IMPORT_HEADERS = [
+        'content-type',
+        'last-modified',
+        'content-length',
+        'date',
+        'content-disposition'
+    ];
+
     /**
      * ProxyResponse constructor.
      *
@@ -68,7 +76,7 @@ class HttpProxyResponse extends Response
         // importing the headers
         foreach ($http_response_header as $header) {
             if (preg_match('/^([\\w-]+): +(.+)$/ui', $header, $matches)) {
-                if (in_array(strtolower($matches[1]), ['content-type', 'last-modified', 'content-length', 'date'])) {
+                if (in_array(strtolower($matches[1]), self::IMPORT_HEADERS)) {
                     $headers[$matches[1]] = $matches[2];
                 }
             }
