@@ -15,54 +15,45 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     23/02/2018
-// Time:     22:13
+// Date:     03/05/2018
+// Time:     11:43
 // Project:  Psr7Responses
 //
-declare(strict_types = 1);
-namespace CodeInc\Psr7Responses;
-use CodeInc\ErrorRenderer\HtmlErrorRenderer;
-use CodeInc\Psr7Responses\Tests\ErrorResponseTest;
+declare(strict_types=1);
+namespace CodeInc\Psr7Responses\Tests;
+use CodeInc\Psr7Responses\HttpProxyResponse;
 
 
 /**
- * Class ErrorResponse
+ * Class HttpProxyResponseTest
  *
- * @uses ErrorResponseTest
- * @package CodeInc\Psr7Responses
+ * @uses HttpProxyResponse
+ * @package CodeInc\Psr7Responses\Tests
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ErrorResponse extends HtmlResponse
+final class HttpProxyResponseTest extends AbstractResponseTestCase
 {
-    /**
-     * @var \Throwable
-     */
-    private $throwable;
-
-	/**
-	 * ErrorResponse constructor.
-	 *
-	 * @param \Throwable $throwable
-	 * @param null|string $charset
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct(\Throwable $throwable, ?string $charset = null,
-        int $status = 500, array $headers = [], string $version = '1.1',
-        ?string $reason = null)
-	{
-	    $this->throwable = $throwable;
-		parent::__construct((new HtmlErrorRenderer($throwable))->get(),
-			$charset, $status, $headers, $version, $reason);
-	}
+    private const TEST_TXT_URL = 'https://www.sample-videos.com/text/Sample-text-file-10kb.txt';
+    private const TEST_IMG_URL = 'https://www.sample-videos.com/img/Sample-jpg-image-50kb.jpg';
 
     /**
-     * @return \Throwable
+     * @throws \CodeInc\Psr7Responses\ResponseException
      */
-    public function getThrowable():\Throwable
+    public function testTxtResponse():void
     {
-        return $this->throwable;
+        $response = new HttpProxyResponse(self::TEST_IMG_URL);
+        self::assertIsResponse($response);
+        self::assertResponseStatusCode(200, $response);
+        self::assertResponseHasBody($response);
+    }
+    /**
+     * @throws \CodeInc\Psr7Responses\ResponseException
+     */
+    public function testImgResponse():void
+    {
+        $response = new HttpProxyResponse(self::TEST_TXT_URL);
+        self::assertIsResponse($response);
+        self::assertResponseStatusCode(200, $response);
+        self::assertResponseHasBody($response);
     }
 }

@@ -15,38 +15,20 @@
 // +---------------------------------------------------------------------+
 //
 // Author:   Joan Fabrégat <joan@codeinc.fr>
-// Date:     04/03/2018
-// Time:     11:55
+// Date:     03/05/2018
+// Time:     12:39
 // Project:  Psr7Responses
 //
-declare(strict_types = 1);
-namespace CodeInc\Psr7Responses;
-use CodeInc\Psr7Responses\Tests\DebugResponseTest;
-
+declare(strict_types=1);
+namespace CodeInc\Psr7Responses\Tests\Assets;
 
 /**
- * Class DebugResponse
+ * Class FakeException
  *
- * @see DebugResponseTest
- * @package CodeInc\Psr7Responses
+ * @package CodeInc\Psr7Responses\Tests\Assets
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class DebugResponse extends HtmlResponse {
-	/**
-	 * DebugResponse constructor.
-	 *
-	 * @param $debugInfos
-	 * @param null|string $charset
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct($debugInfos, ?string $charset = null, int $status = 200, array $headers = [],
-        string $version = '1.1', ?string $reason = null)
-	{
-		ob_start();
-		var_dump($debugInfos);
-		parent::__construct(ob_get_clean(), $charset, $status, $headers, $version, $reason);
-	}
+class FakeException extends \Exception
+{
+
 }
