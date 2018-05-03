@@ -67,10 +67,9 @@ final class HttpProxyResponseTest extends TestCase
         self::assertInternalType('resource', $bodyStream);
 
         // downloading the body
-        $body = stream_get_contents($bodyStream);
+        self::assertNotFalse($body = stream_get_contents($bodyStream));
         self::assertNotEmpty($body);
         self::assertEquals(strlen($body), $response->getHeaderLine('Content-Length'));
-
-        fclose($bodyStream);
+        self::assertTrue(fclose($bodyStream));
     }
 }
