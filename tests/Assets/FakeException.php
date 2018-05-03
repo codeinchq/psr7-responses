@@ -27,6 +27,8 @@ namespace CodeInc\Psr7Responses\Tests\Assets;
  *
  * @package CodeInc\Psr7Responses\Tests\Assets
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
  */
 class FakeException extends \Exception
 {

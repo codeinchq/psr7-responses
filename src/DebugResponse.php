@@ -30,6 +30,8 @@ use CodeInc\Psr7Responses\Tests\DebugResponseTest;
  * @see DebugResponseTest
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
  */
 class DebugResponse extends HtmlResponse {
 	/**

@@ -30,6 +30,8 @@ use CodeInc\Psr7Responses\DebugResponse;
  * @uses DebugResponse
  * @package CodeInc\Psr7Responses\Tests
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
  */
 class DebugResponseTest extends AbstractResponseTestCase
 {

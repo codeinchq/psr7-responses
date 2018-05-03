@@ -29,6 +29,8 @@ use GuzzleHttp\Psr7\Response;
  *
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
  */
 class RedirectResponse extends Response {
 	/**

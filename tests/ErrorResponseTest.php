@@ -31,6 +31,8 @@ use CodeInc\Psr7Responses\Tests\Assets\FakeException;
  * @uses ErrorResponse
  * @package CodeInc\Psr7Responses\Tests
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
  */
 class ErrorResponseTest extends AbstractResponseTestCase
 {

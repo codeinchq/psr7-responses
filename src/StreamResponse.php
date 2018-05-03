@@ -30,6 +30,8 @@ use function GuzzleHttp\Psr7\stream_for;
  *
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
  */
 class StreamResponse extends Response {
 	/**
