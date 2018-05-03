@@ -42,7 +42,6 @@ class HttpProxyResponse extends Response
         'date',
         'last-modified',
         'etag',
-        'cache',
         'pragma',
         'expires',
         'cache-control'
