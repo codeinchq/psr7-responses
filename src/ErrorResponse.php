@@ -22,11 +22,13 @@
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use CodeInc\ErrorRenderer\HtmlErrorRenderer;
+use CodeInc\Psr7Responses\Tests\ErrorResponseTest;
 
 
 /**
  * Class ErrorResponse
  *
+ * @uses ErrorResponseTest
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
@@ -36,7 +38,6 @@ class ErrorResponse extends HtmlResponse
      * @var \Throwable
      */
     private $throwable;
-
 
 	/**
 	 * ErrorResponse constructor.
@@ -49,14 +50,13 @@ class ErrorResponse extends HtmlResponse
 	 * @param null|string $reason
 	 */
 	public function __construct(\Throwable $throwable, ?string $charset = null,
-        int $status = 200, array $headers = [], string $version = '1.1',
+        int $status = 500, array $headers = [], string $version = '1.1',
         ?string $reason = null)
 	{
 	    $this->throwable = $throwable;
 		parent::__construct((new HtmlErrorRenderer($throwable))->get(),
 			$charset, $status, $headers, $version, $reason);
 	}
-
 
     /**
      * @return \Throwable

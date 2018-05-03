@@ -22,8 +22,6 @@
 declare(strict_types=1);
 namespace CodeInc\Psr7Responses\Tests;
 use CodeInc\Psr7Responses\HttpProxyResponse;
-use PHPUnit\Framework\TestCase;
-use Psr\Http\Message\ResponseInterface;
 
 
 /**
@@ -33,7 +31,7 @@ use Psr\Http\Message\ResponseInterface;
  * @package CodeInc\Psr7Responses\Tests
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-final class HttpProxyResponseTest extends TestCase
+final class HttpProxyResponseTest extends AbstractResponseTestCase
 {
     private const TEST_TXT_URL = 'https://www.sample-videos.com/text/Sample-text-file-10kb.txt';
     private const TEST_IMG_URL = 'https://www.sample-videos.com/img/Sample-jpg-image-50kb.jpg';
@@ -44,8 +42,9 @@ final class HttpProxyResponseTest extends TestCase
     public function testTxtResponse():void
     {
         $response = new HttpProxyResponse(self::TEST_IMG_URL);
-        self::assertInstanceOf(ResponseInterface::class, $response);
-        self::assertResponse($response);
+        self::assertIsResponse($response);
+        self::assertResponseStatusCode(200, $response);
+        self::assertResponseHasBody($response);
     }
     /**
      * @throws \CodeInc\Psr7Responses\ResponseException
@@ -53,23 +52,8 @@ final class HttpProxyResponseTest extends TestCase
     public function testImgResponse():void
     {
         $response = new HttpProxyResponse(self::TEST_TXT_URL);
-        self::assertInstanceOf(ResponseInterface::class, $response);
-        self::assertResponse($response);
-    }
-
-    /**
-     * @param ResponseInterface $response
-     */
-    public static function assertResponse(ResponseInterface $response):void
-    {
-        // detching the stream
-        $bodyStream = $response->getBody()->detach();
-        self::assertInternalType('resource', $bodyStream);
-
-        // downloading the body
-        self::assertNotFalse($body = stream_get_contents($bodyStream));
-        self::assertNotEmpty($body);
-        self::assertEquals(strlen($body), $response->getHeaderLine('Content-Length'));
-        self::assertTrue(fclose($bodyStream));
+        self::assertIsResponse($response);
+        self::assertResponseStatusCode(200, $response);
+        self::assertResponseHasBody($response);
     }
 }

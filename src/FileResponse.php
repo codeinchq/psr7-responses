@@ -22,11 +22,13 @@
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use CodeInc\MediaTypes\MediaTypes;
+use CodeInc\Psr7Responses\Tests\FileResponseTest;
 
 
 /**
  * Class FileResponse
  *
+ * @see FileResponseTest
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
