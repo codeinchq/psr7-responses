@@ -37,10 +37,15 @@ class HttpProxyResponse extends Response
 {
     protected const IMPORT_HEADERS = [
         'content-type',
-        'last-modified',
         'content-length',
+        'content-disposition',
         'date',
-        'content-disposition'
+        'last-modified',
+        'etag',
+        'cache',
+        'pragma',
+        'expires',
+        'cache-control'
     ];
 
     /**
