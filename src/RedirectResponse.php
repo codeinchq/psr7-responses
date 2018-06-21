@@ -32,7 +32,8 @@ use GuzzleHttp\Psr7\Response;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class RedirectResponse extends Response {
+class RedirectResponse extends Response
+{
 	/**
 	 * RedirectResponse constructor.
 	 *

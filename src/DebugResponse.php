@@ -33,7 +33,8 @@ use CodeInc\Psr7Responses\Tests\DebugResponseTest;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class DebugResponse extends HtmlResponse {
+class DebugResponse extends HtmlResponse
+{
 	/**
 	 * DebugResponse constructor.
 	 *

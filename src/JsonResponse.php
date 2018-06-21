@@ -32,20 +32,21 @@ use GuzzleHttp\Psr7\Response;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class JsonResponse extends Response {
+class JsonResponse extends Response
+{
 	public const DEFAULT_CHARSET = "utf-8";
 
 	/**
 	 * TextResponse constructor.
 	 *
 	 * @param string|array|object $json
-	 * @param string|null $charset
 	 * @param int $status
+     * @param string|null $charset
 	 * @param array $headers
 	 * @param string $version
 	 * @param null|string $reason
 	 */
-	public function __construct($json, ?string $charset = null, int $status = 200, array $headers = [],
+	public function __construct($json, int $status = 200, ?string $charset = null, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
 		if (!is_string($json)) {

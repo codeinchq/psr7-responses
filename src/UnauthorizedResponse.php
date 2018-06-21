@@ -30,7 +30,8 @@ namespace CodeInc\Psr7Responses;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class UnauthorizedResponse extends HtmlResponse {
+class UnauthorizedResponse extends HtmlResponse
+{
     /**
      * UnauthorizedResponse constructor.
      *
