@@ -32,7 +32,8 @@ use GuzzleHttp\Psr7\Response;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class HtmlResponse extends Response {
+class HtmlResponse extends Response
+{
 	public const DEFAULT_CHARSET = "utf-8";
 
 	/**

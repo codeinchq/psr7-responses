@@ -29,7 +29,8 @@ namespace CodeInc\Psr7Responses;
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
  */
-class ForbiddenResponse extends HtmlResponse {
+class ForbiddenResponse extends HtmlResponse
+{
     /**
      * ForbiddenResponse constructor.
      *

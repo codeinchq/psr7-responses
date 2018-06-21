@@ -31,7 +31,8 @@ namespace CodeInc\Psr7Responses;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class NotFoundResponse extends HtmlResponse {
+class NotFoundResponse extends HtmlResponse
+{
 	/**
 	 * NotFoundResponse constructor.
 	 *

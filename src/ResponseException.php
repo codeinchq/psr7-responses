@@ -34,7 +34,8 @@ use Exception;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class ResponseException extends Exception {
+class ResponseException extends Exception
+{
 	/**
 	 * @var ResponseInterface
 	 */
