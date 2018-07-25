@@ -36,6 +36,16 @@ class XmlResponse extends Response
 {
 	public const DEFAULT_CHARSET = "utf-8";
 
+    /**
+     * @var string
+     */
+	private $xml;
+
+    /**
+     * @var null|string
+     */
+	private $charset;
+
 	/**
 	 * TextResponse constructor.
 	 *
@@ -49,7 +59,25 @@ class XmlResponse extends Response
 	public function __construct(string $xml, ?string $charset = null, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
+	    $this->xml = $xml;
+	    $this->charset = $charset;
 		$headers["Content-Type"] = "application/xml; charset=".($charset ?? self::DEFAULT_CHARSET);
 		parent::__construct($status, $headers, $xml, $version, $reason);
 	}
+
+    /**
+     * @return string
+     */
+    public function getXml():string
+    {
+        return $this->xml;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCharset():?string
+    {
+        return $this->charset;
+    }
 }
