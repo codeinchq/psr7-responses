@@ -37,32 +37,34 @@ class ErrorResponse extends HtmlResponse
     /**
      * @var \Throwable
      */
-    private $throwable;
+    private $error;
 
 	/**
 	 * ErrorResponse constructor.
 	 *
-	 * @param \Throwable $throwable
+	 * @param \Throwable $error
 	 * @param null|string $charset
 	 * @param int $status
 	 * @param array $headers
 	 * @param string $version
 	 * @param null|string $reason
 	 */
-	public function __construct(\Throwable $throwable, ?string $charset = null,
+	public function __construct(\Throwable $error, ?string $charset = null,
         int $status = 500, array $headers = [], string $version = '1.1',
         ?string $reason = null)
 	{
-	    $this->throwable = $throwable;
-		parent::__construct((new HtmlErrorRenderer($throwable))->get(),
+	    $this->error = $error;
+		parent::__construct((new HtmlErrorRenderer($error))->get(),
 			$charset, $status, $headers, $version, $reason);
 	}
 
     /**
-     * @return \Throwable
+     * Returns the error (\Exception or \Throwable).
+     *
+     * @return \Throwable|\Exception
      */
-    public function getThrowable():\Throwable
+    public function getError():\Throwable
     {
-        return $this->throwable;
+        return $this->error;
     }
 }

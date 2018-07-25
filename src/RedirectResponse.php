@@ -34,6 +34,11 @@ use GuzzleHttp\Psr7\Response;
  */
 class RedirectResponse extends Response
 {
+    /**
+     * @var string
+     */
+    private $url;
+
 	/**
 	 * RedirectResponse constructor.
 	 *
@@ -47,7 +52,18 @@ class RedirectResponse extends Response
 	public function __construct(string $url, int $status = 302, array $headers = [],
 		$body = null, string $version = '1.1', ?string $reason = null)
 	{
+	    $this->url = $url;
 		$headers["Location"] = $url;
 		parent::__construct($status, $headers, $body, $version, $reason);
 	}
+
+    /**
+     * Returns the URL to be redirected to.
+     *
+     * @return string
+     */
+    public function getUrl():string
+    {
+        return $this->url;
+    }
 }

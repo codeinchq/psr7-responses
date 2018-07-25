@@ -36,6 +36,16 @@ class HtmlResponse extends Response
 {
 	public const DEFAULT_CHARSET = "utf-8";
 
+    /**
+     * @var string
+     */
+	private $html;
+
+    /**
+     * @var null|string
+     */
+	private $charset;
+
 	/**
 	 * HtmlResponse constructor.
 	 *
@@ -50,6 +60,26 @@ class HtmlResponse extends Response
 		string $version = '1.1', ?string $reason = null)
 	{
 		$headers["Content-Type"] = "text/html; charset=".($charset ?? self::DEFAULT_CHARSET);
+		$this->html = $html;
+		$this->charset = $charset;
 		parent::__construct($status, $headers, $html, $version, $reason);
 	}
+
+    /**
+     * Returns the HTML code.
+     *
+     * @return string
+     */
+    public function getHtml():string
+    {
+        return $this->html;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCharset():?string
+    {
+        return $this->charset;
+    }
 }

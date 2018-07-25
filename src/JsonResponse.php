@@ -36,6 +36,16 @@ class JsonResponse extends Response
 {
 	public const DEFAULT_CHARSET = "utf-8";
 
+    /**
+     * @var string
+     */
+	private $json;
+
+    /**
+     * @var null|string
+     */
+	private $charset;
+
 	/**
 	 * TextResponse constructor.
 	 *
@@ -52,7 +62,39 @@ class JsonResponse extends Response
 		if (!is_string($json)) {
 			$json = json_encode($json);
 		}
+		$this->json = $json;
+		$this->charset = $charset;
 		$headers["Content-Type"] = "application/json; charset=".($charset ?? self::DEFAULT_CHARSET);
 		parent::__construct($status, $headers, $json, $version, $reason);
 	}
+
+    /**
+     * @return string
+     */
+    public function getJson():string
+    {
+        return $this->json;
+    }
+
+    /**
+     * @return array
+     * @throws ResponseException
+     */
+    public function getJsonAsArray():array
+    {
+        if (!($array = json_decode($this->json, true))) {
+            throw new ResponseException("Unable to decode the response's JSON", $this);
+        }
+        return json_decode($this->json, true);
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCharset():?string
+    {
+        return $this->charset;
+    }
+
+
 }

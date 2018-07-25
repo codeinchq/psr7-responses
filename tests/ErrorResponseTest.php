@@ -40,8 +40,8 @@ class ErrorResponseTest extends AbstractResponseTestCase
     {
         $response = new ErrorResponse(new FakeException('Test'));
         self::assertIsResponse($response);
-        self::assertInstanceOf(FakeException::class, $response->getThrowable());
-        self::assertEquals($response->getThrowable()->getMessage(), 'Test');
+        self::assertInstanceOf(FakeException::class, $response->getError());
+        self::assertEquals($response->getError()->getMessage(), 'Test');
         self::assertResponseStatusCode(500, $response);
         self::assertResponseHasBody($response);
     }

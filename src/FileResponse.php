@@ -37,6 +37,16 @@ class FileResponse extends StreamResponse
 	public const DEFAULT_MIME_TYPE = 'application/octet-stream';
 
     /**
+     * @var string
+     */
+	private $filePath;
+
+    /**
+     * @var string
+     */
+	private $fileName;
+
+    /**
      * FileResponse constructor.
      *
      * @param string $filePath
@@ -75,6 +85,9 @@ class FileResponse extends StreamResponse
 		    $mimeType = MediaTypes::getFilenameMediaType($fileName);
         }
 
+        $this->fileName = $fileName;
+		$this->filePath = $filePath;
+
 		parent::__construct(
 			$f,
 			$mimeType ?? self::DEFAULT_MIME_TYPE,
@@ -87,4 +100,24 @@ class FileResponse extends StreamResponse
 			$reason
 		);
 	}
+
+    /**
+     * Returns the file name.
+     *
+     * @return string
+     */
+    public function getFileName():string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * Returns the file path.
+     *
+     * @return string
+     */
+    public function getFilePath():string
+    {
+        return $this->filePath;
+    }
 }
