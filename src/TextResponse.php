@@ -36,6 +36,16 @@ class TextResponse extends Response
 {
 	public const DEFAULT_CHARSET = "utf-8";
 
+    /**
+     * @var string
+     */
+	private $text;
+
+    /**
+     * @var null|string
+     */
+	private $charset;
+
 	/**
 	 * TextResponse constructor.
 	 *
@@ -49,7 +59,25 @@ class TextResponse extends Response
 	public function __construct(string $text, ?string $charset = null, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
+	    $this->text = $text;
+	    $this->charset = $charset;
 		$headers["Content-Type"] = "text/plain; charset=".($charset ?? self::DEFAULT_CHARSET);
 		parent::__construct($status, $headers, $text, $version, $reason);
 	}
+
+    /**
+     * @return string
+     */
+    public function getText():string
+    {
+        return $this->text;
+    }
+
+    /**
+     * @return null|string
+     */
+    public function getCharset():?string
+    {
+        return $this->charset;
+    }
 }
