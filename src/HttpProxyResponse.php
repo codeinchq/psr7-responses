@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace CodeInc\Psr7Responses;
 use CodeInc\Psr7Responses\Tests\HttpProxyResponseTest;
 use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Stream;
 use function GuzzleHttp\Psr7\stream_for;
 
 
@@ -50,6 +51,11 @@ class HttpProxyResponse extends Response
     ];
 
     /**
+     * @var string
+     */
+    private $remoteUrl;
+
+    /**
      * ProxyResponse constructor.
      *
      * @param string $remoteUrl
@@ -62,24 +68,64 @@ class HttpProxyResponse extends Response
     public function __construct(string $remoteUrl, int $status = 200, array $headers = [],
         string $version = '1.1', ?string $reason = null)
     {
-        // checking the URL
+        $this->setRemoteUrl($remoteUrl);
+
+        parent::__construct(
+            $status,
+            $this->importHttpHeader($headers),
+            $this->getStream(),
+            $version,
+            $reason
+        );
+    }
+
+    /**
+     * @param string $remoteUrl
+     * @throws ResponseException
+     */
+    private function setRemoteUrl(string $remoteUrl):void
+    {
         if (!filter_var($remoteUrl, FILTER_VALIDATE_URL)) {
             throw new ResponseException(
                 sprintf("%s is not a valid URL", $remoteUrl),
                 $this
             );
         }
+        $this->remoteUrl = $remoteUrl;
+    }
 
-        // downloading
+    /**
+     * Returns the remote URL.
+     *
+     * @return string
+     */
+    public function getRemoteUrl():string
+    {
+        return $this->remoteUrl;
+    }
+
+    /**
+     * @return Stream
+     * @throws ResponseException
+     */
+    private function getStream():Stream
+    {
         $context = stream_context_create(['http' => ['method' => 'GET']]);
-        if (($f = fopen($remoteUrl, 'r', false, $context)) === false) {
+        if (($f = fopen($this->remoteUrl, 'r', false, $context)) === false) {
             throw new ResponseException(
-                sprintf("Unable to open the URL %s", $remoteUrl),
+                sprintf("Unable to open the URL %s", $this->remoteUrl),
                 $this
             );
         }
+        return stream_for($f);
+    }
 
-        // importing the headers
+    /**
+     * @param array $headers
+     * @return array
+     */
+    private function importHttpHeader(array $headers):array
+    {
         foreach ($http_response_header as $header) {
             if (preg_match('/^([\\w-]+): +(.+)$/ui', $header, $matches)) {
                 if (in_array(strtolower($matches[1]), self::IMPORT_HEADERS)) {
@@ -87,8 +133,6 @@ class HttpProxyResponse extends Response
                 }
             }
         }
-
-        parent::__construct($status, $headers, stream_for($f), $version, $reason);
+        return $headers;
     }
-
 }
