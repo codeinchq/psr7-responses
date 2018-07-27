@@ -23,6 +23,7 @@ declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
+use Psr\Http\Message\StreamInterface;
 
 
 /**
@@ -36,7 +37,7 @@ use function GuzzleHttp\Psr7\stream_for;
 class StreamResponse extends Response
 {
     /**
-     * @var \GuzzleHttp\Psr7\Stream
+     * @var StreamInterface
      */
     private $stream;
 
@@ -99,11 +100,11 @@ class StreamResponse extends Response
 	}
 
     /**
-     * Returns the stream.
+     * Returns the resource wrapped into a stream.
      *
-     * @return \GuzzleHttp\Psr7\Stream
+     * @return StreamInterface
      */
-    public function getStream():\GuzzleHttp\Psr7\Stream
+    public function getStream():StreamInterface
     {
         return $this->stream;
     }
