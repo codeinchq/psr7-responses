@@ -23,6 +23,7 @@ declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use GuzzleHttp\Psr7\Response;
 use function GuzzleHttp\Psr7\stream_for;
+use Psr\Http\Message\StreamInterface;
 
 
 /**
@@ -36,9 +37,14 @@ use function GuzzleHttp\Psr7\stream_for;
 class StreamResponse extends Response
 {
     /**
-     * @var \GuzzleHttp\Psr7\Stream
+     * @var StreamInterface
      */
     private $stream;
+
+    /**
+     * @var mixed
+     */
+    private $rawResource;
 
     /**
      * @var null|string
@@ -77,6 +83,7 @@ class StreamResponse extends Response
 		?string $fileName = null, bool $asAttachment = false, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
+	    $this->rawResource = $resource;
 		$this->stream = stream_for($resource);
         $this->charset = $charset;
         $this->contentLength = $contentLength;
@@ -99,13 +106,23 @@ class StreamResponse extends Response
 	}
 
     /**
-     * Returns the stream.
+     * Returns the resource wrapped into a stream.
      *
-     * @return \GuzzleHttp\Psr7\Stream
+     * @return StreamInterface
      */
-    public function getStream():\GuzzleHttp\Psr7\Stream
+    public function getStream():StreamInterface
     {
         return $this->stream;
+    }
+
+    /**
+     * Returns the raw resource as passed to the constructor.
+     *
+     * @return mixed
+     */
+    public function getRawResource()
+    {
+        return $this->rawResource;
     }
 
     /**
