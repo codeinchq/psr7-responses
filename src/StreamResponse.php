@@ -42,6 +42,11 @@ class StreamResponse extends Response
     private $stream;
 
     /**
+     * @var mixed
+     */
+    private $rawResource;
+
+    /**
      * @var null|string
      */
     private $charset;
@@ -78,6 +83,7 @@ class StreamResponse extends Response
 		?string $fileName = null, bool $asAttachment = false, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
+	    $this->rawResource = $resource;
 		$this->stream = stream_for($resource);
         $this->charset = $charset;
         $this->contentLength = $contentLength;
@@ -107,6 +113,16 @@ class StreamResponse extends Response
     public function getStream():StreamInterface
     {
         return $this->stream;
+    }
+
+    /**
+     * Returns the raw resource as passed to the constructor.
+     *
+     * @return mixed
+     */
+    public function getRawResource()
+    {
+        return $this->rawResource;
     }
 
     /**
