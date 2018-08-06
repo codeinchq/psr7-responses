@@ -70,7 +70,7 @@ class StreamResponse extends Response
 	 * StreamResponse constructor.
 	 *
 	 * @param $resource
-	 * @param null|string $charset
+	 * @param null|string $contentType
 	 * @param int|null $contentLength
 	 * @param null|string $fileName
 	 * @param bool $asAttachment
@@ -79,20 +79,20 @@ class StreamResponse extends Response
 	 * @param string $version
 	 * @param null|string $reason
 	 */
-	public function __construct($resource, ?string $charset = null, ?int $contentLength = null,
+	public function __construct($resource, ?string $contentType = null, ?int $contentLength = null,
 		?string $fileName = null, bool $asAttachment = false, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
 	    $this->rawResource = $resource;
 		$this->stream = stream_for($resource);
-        $this->charset = $charset;
+        $this->charset = $contentType;
         $this->contentLength = $contentLength;
         $this->fileName = $fileName;
         $this->asAttachment = $asAttachment;
 
 		// adding headers
-		if ($charset) {
-			$headers["Content-Type"] = $charset;
+		if ($contentType) {
+			$headers["Content-Type"] = $contentType;
 		}
 		$headers["Content-Disposition"] = $asAttachment ? "attachment" : "inline";
 		if ($fileName) {

@@ -51,7 +51,7 @@ class FileResponse extends StreamResponse
      *
      * @param string $filePath
      * @param null|string $fileName
-     * @param null|string $mimeType
+     * @param null|string $contentType
      * @param bool $asAttachment
      * @param int $status
      * @param array $headers
@@ -60,7 +60,7 @@ class FileResponse extends StreamResponse
      * @throws ResponseException
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
      */
-	public function __construct(string $filePath, ?string $fileName = null, ?string $mimeType = null,
+	public function __construct(string $filePath, ?string $fileName = null, ?string $contentType = null,
 		bool $asAttachment = true, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
@@ -81,8 +81,8 @@ class FileResponse extends StreamResponse
 		}
 
 		// looking up the mime type using
-        if (!$mimeType && $fileName) {
-		    $mimeType = MediaTypes::getFilenameMediaType($fileName);
+        if (!$contentType && $fileName) {
+		    $contentType = MediaTypes::getFilenameMediaType($fileName);
         }
 
         $this->fileName = $fileName;
@@ -90,7 +90,7 @@ class FileResponse extends StreamResponse
 
 		parent::__construct(
 			$f,
-			$mimeType ?? self::DEFAULT_MIME_TYPE,
+			$contentType ?? self::DEFAULT_MIME_TYPE,
 			filesize($filePath) ?: null,
 			$fileName ?? basename($filePath),
 			$asAttachment,
