@@ -22,8 +22,6 @@
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use Psr\Http\Message\ResponseInterface;
-use Throwable;
-use Exception;
 
 
 /**
@@ -34,7 +32,7 @@ use Exception;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class ResponseException extends Exception
+class ResponseException extends \RuntimeException
 {
 	/**
 	 * @var ResponseInterface
@@ -47,10 +45,10 @@ class ResponseException extends Exception
 	 * @param string $message
 	 * @param ResponseInterface $response
 	 * @param int|null $code
-	 * @param null|Throwable $previous
+	 * @param null|\Throwable $previous
 	 */
 	public function __construct(string $message, ResponseInterface $response, ?int $code = null,
-		?Throwable $previous = null)
+		?\Throwable $previous = null)
 	{
 		$this->response = $response;
 		parent::__construct($message, $code ?? 0, $previous);
