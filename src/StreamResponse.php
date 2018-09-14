@@ -42,11 +42,6 @@ class StreamResponse extends Response
     private $stream;
 
     /**
-     * @var mixed
-     */
-    private $rawResource;
-
-    /**
      * @var null|string
      */
     private $charset;
@@ -66,25 +61,25 @@ class StreamResponse extends Response
      */
     private $asAttachment;
 
-	/**
-	 * StreamResponse constructor.
-	 *
-	 * @param $resource
-	 * @param null|string $contentType
-	 * @param int|null $contentLength
-	 * @param null|string $fileName
-	 * @param bool $asAttachment
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct($resource, ?string $contentType = null, ?int $contentLength = null,
+    /**
+     * StreamResponse constructor.
+     *
+     * @uses stream_for()
+     * @param resource|string|null|int|float|bool|StreamInterface|callable $dataSource
+     * @param null|string $contentType
+     * @param int|null $contentLength
+     * @param null|string $fileName
+     * @param bool $asAttachment
+     * @param int $status
+     * @param array $headers
+     * @param string $version
+     * @param null|string $reason
+     */
+	public function __construct($dataSource, ?string $contentType = null, ?int $contentLength = null,
 		?string $fileName = null, bool $asAttachment = false, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
-	    $this->rawResource = $resource;
-		$this->stream = stream_for($resource);
+		$this->stream = stream_for($dataSource);
         $this->charset = $contentType;
         $this->contentLength = $contentLength;
         $this->fileName = $fileName;
@@ -113,16 +108,6 @@ class StreamResponse extends Response
     public function getStream():StreamInterface
     {
         return $this->stream;
-    }
-
-    /**
-     * Returns the raw resource as passed to the constructor.
-     *
-     * @return mixed
-     */
-    public function getRawResource()
-    {
-        return $this->rawResource;
     }
 
     /**
