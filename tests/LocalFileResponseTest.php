@@ -22,6 +22,7 @@
 declare(strict_types=1);
 namespace CodeInc\Psr7Responses\Tests;
 use CodeInc\Psr7Responses\FileResponse;
+use CodeInc\Psr7Responses\LocalFileResponse;
 
 
 /**
@@ -33,7 +34,7 @@ use CodeInc\Psr7Responses\FileResponse;
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
  */
-class FileResponseTest extends AbstractResponseTestCase
+class LocalFileResponseTest extends AbstractResponseTestCase
 {
     /**
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
@@ -41,7 +42,7 @@ class FileResponseTest extends AbstractResponseTestCase
      */
     public function test():void
     {
-        $response = new FileResponse(__DIR__.'/Assets/file.txt');
+        $response = new LocalFileResponse(__DIR__.'/Assets/file.txt');
         self::assertIsResponse($response);
         self::assertResponseStatusCode(200, $response);
         self::assertResponseHasBody($response);
