@@ -22,7 +22,6 @@
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use CodeInc\MediaTypes\MediaTypes;
-use CodeInc\Psr7Responses\Tests\FileResponseTest;
 use Psr\Http\Message\StreamInterface;
 
 
@@ -38,19 +37,9 @@ class FileResponse extends StreamResponse
 	public const DEFAULT_MIME_TYPE = 'application/octet-stream';
 
     /**
-     * @var string
-     */
-	private $filePath;
-
-    /**
-     * @var string
-     */
-	private $fileName;
-
-    /**
      * FileResponse constructor.
      *
-     * @param string|StreamInterface $file Path to the file or stream of its content
+     * @param StreamInterface $fileStream
      * @param null|string $fileName
      * @param null|string $contentType
      * @param bool $asAttachment
@@ -58,45 +47,17 @@ class FileResponse extends StreamResponse
      * @param array $headers
      * @param string $version
      * @param null|string $reason
-     * @throws ResponseException
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
      */
-	public function __construct($file, ?string $fileName = null, ?string $contentType = null,
+	public function __construct(StreamInterface $fileStream, string $fileName, ?string $contentType = null,
 		bool $asAttachment = true, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
-        if (!$file instanceof StreamInterface) {
-            if (!is_file($file)) {
-                throw new ResponseException(
-                    sprintf("The path \"%s\" is not a file or does not exist", $file),
-                    $this
-                );
-            }
-            if (($f = fopen($file, "r")) === false) {
-                throw new ResponseException(
-                    sprintf("Unable to open the file \"%s\" for reading", $file),
-                    $this
-                );
-            }
-            $file = $f;
-        }
-		if (!$fileName) {
-			$fileName = basename($file);
-		}
-
-		// looking up the mime type using
-        if (!$contentType && $fileName) {
-		    $contentType = MediaTypes::getFilenameMediaType($fileName);
-        }
-
-        $this->fileName = $fileName;
-		$this->filePath = $file;
-
 		parent::__construct(
-			$file,
-			$contentType ?? self::DEFAULT_MIME_TYPE,
-			filesize($file) ?: null,
-			$fileName ?? basename($file),
+			$fileStream,
+			$contentType ?? MediaTypes::getFilenameMediaType($fileName, self::DEFAULT_MIME_TYPE),
+			null,
+			$fileName,
 			$asAttachment,
 			$status,
 			$headers,
@@ -104,24 +65,4 @@ class FileResponse extends StreamResponse
 			$reason
 		);
 	}
-
-    /**
-     * Returns the file name.
-     *
-     * @return string
-     */
-    public function getFileName():string
-    {
-        return $this->fileName;
-    }
-
-    /**
-     * Returns the file path.
-     *
-     * @return string
-     */
-    public function getFilePath():string
-    {
-        return $this->filePath;
-    }
 }
