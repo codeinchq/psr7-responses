@@ -22,6 +22,7 @@
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use CodeInc\MediaTypes\MediaTypes;
+use function GuzzleHttp\Psr7\stream_for;
 use Psr\Http\Message\StreamInterface;
 
 
@@ -39,7 +40,7 @@ class FileResponse extends StreamResponse
     /**
      * FileResponse constructor.
      *
-     * @param StreamInterface $fileStream
+     * @param string|resource|StreamInterface $file
      * @param null|string $fileName
      * @param null|string $contentType
      * @param bool $asAttachment
@@ -49,12 +50,31 @@ class FileResponse extends StreamResponse
      * @param null|string $reason
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
      */
-	public function __construct(StreamInterface $fileStream, string $fileName, ?string $contentType = null,
+	public function __construct($file, string $fileName, ?string $contentType = null,
 		bool $asAttachment = true, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
+	    if (is_string($file)) {
+            if (!is_file($file)) {
+                throw new ResponseException(
+                    sprintf("The path \"%s\" is not a file or does not exist", $file),
+                    $this
+                );
+            }
+            if (($handler = fopen($file, "r")) === false) {
+                throw new ResponseException(
+                    sprintf("Unable to open the file \"%s\" for reading", $file),
+                    $this
+                );
+            }
+            $stream = stream_for($handler);
+        }
+        else {
+            $stream = stream_for($file);
+        }
+
 		parent::__construct(
-			$fileStream,
+			$stream,
 			$contentType ?? MediaTypes::getFilenameMediaType($fileName, self::DEFAULT_MIME_TYPE),
 			null,
 			$fileName,

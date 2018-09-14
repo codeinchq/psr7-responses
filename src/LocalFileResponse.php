@@ -22,7 +22,6 @@
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
 use CodeInc\Psr7Responses\Tests\LocalFileResponseTest;
-use function GuzzleHttp\Psr7\stream_for;
 
 
 /**
@@ -52,21 +51,8 @@ class LocalFileResponse extends FileResponse
 		bool $asAttachment = true, int $status = 200, array $headers = [],
 		string $version = '1.1', ?string $reason = null)
 	{
-        if (!is_file($filePath)) {
-            throw new ResponseException(
-                sprintf("The path \"%s\" is not a file or does not exist", $filePath),
-                $this
-            );
-        }
-        if (($f = fopen($filePath, "r")) === false) {
-            throw new ResponseException(
-                sprintf("Unable to open the file \"%s\" for reading", $filePath),
-                $this
-            );
-        }
-
 		parent::__construct(
-			stream_for($f),
+			$filePath,
 			$fileName ?? basename($filePath),
 			$contentType,
 			$asAttachment,
