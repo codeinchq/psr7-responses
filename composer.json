@@ -1,6 +1,6 @@
 {
   "name": "codeinc/psr7-responses",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "A collection of PSR-7 responses",
   "homepage": "https://github.com/CodeIncHQ/Psr7Responses",
   "type": "library",
