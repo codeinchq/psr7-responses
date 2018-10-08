@@ -37,14 +37,14 @@ class NotFoundResponse extends HtmlResponse
     /**
      * NotFoundResponse constructor.
      *
-     * @param string|null $html
+     * @param string $html
      * @param int $code
      * @param string $reasonPhrase
      * @param string $charset
      * @param array $headers
      * @param string $version
      */
-	public function __construct(string $html = null, int $code = 404, string $reasonPhrase = '',
+	public function __construct(string $html = '', int $code = 404, string $reasonPhrase = '',
         string $charset = 'utf-8', array $headers = [], string $version = '1.1')
 	{
 		parent::__construct(
