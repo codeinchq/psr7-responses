@@ -31,6 +31,7 @@ use GuzzleHttp\Psr7\Response;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
 class RedirectResponse extends Response
 {
@@ -39,22 +40,21 @@ class RedirectResponse extends Response
      */
     private $url;
 
-	/**
-	 * RedirectResponse constructor.
-	 *
-	 * @param string $url
-	 * @param int $status
-	 * @param array $headers
-	 * @param null $body
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct(string $url, int $status = 302, array $headers = [],
-		$body = null, string $version = '1.1', ?string $reason = null)
+    /**
+     * RedirectResponse constructor.
+     *
+     * @param string $url
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param array $headers
+     * @param string $version
+     */
+	public function __construct(string $url, int $code = 302, string $reasonPhrase = '',
+        array $headers = [], string $version = '1.1')
 	{
 	    $this->url = $url;
 		$headers["Location"] = $url;
-		parent::__construct($status, $headers, $body, $version, $reason);
+		parent::__construct($code, $headers, $version, $reasonPhrase);
 	}
 
     /**

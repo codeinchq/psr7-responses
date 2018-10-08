@@ -30,6 +30,9 @@ use CodeInc\Psr7Responses\Tests\LocalFileResponseTest;
  * @see LocalFileResponseTest
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
 class LocalFileResponse extends FileResponse
 {
@@ -37,29 +40,28 @@ class LocalFileResponse extends FileResponse
      * LocalFileResponse constructor.
      *
      * @param string $filePath Local file path
+     * @param int $code
+     * @param string $reasonPhrase
      * @param null|string $fileName File's name (determined from the local file path if not specified)
      * @param null|string $contentType File's content type (determined from the file's name if not specified)
      * @param bool $asAttachment Defines if the file should be sent as an attachment
-     * @param int $status
      * @param array $headers
      * @param string $version
-     * @param null|string $reason
-     * @throws ResponseException
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
      */
-	public function __construct(string $filePath, ?string $fileName = null, ?string $contentType = null,
-		bool $asAttachment = true, int $status = 200, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+	public function __construct(string $filePath,  int $code = 200, string $reasonPhrase = '',
+        ?string $fileName = null, ?string $contentType = null, bool $asAttachment = true,
+        array $headers = [], string $version = '1.1')
 	{
 		parent::__construct(
 			$filePath,
 			$fileName ?? basename($filePath),
+            $code,
+            $reasonPhrase,
 			$contentType,
 			$asAttachment,
-			$status,
             $headers,
-            $version,
-            $reason
+            $version
 		);
 	}
 }

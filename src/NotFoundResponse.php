@@ -30,22 +30,30 @@ namespace CodeInc\Psr7Responses;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
 class NotFoundResponse extends HtmlResponse
 {
-	/**
-	 * NotFoundResponse constructor.
-	 *
-	 * @param string|null $html
-	 * @param null|string $charset
-	 * @param array $headers
-	 * @param null $body
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct(string $html = null, ?string $charset = null, array $headers = [],
-		$body = null, string $version = '1.1', ?string $reason = null)
+    /**
+     * NotFoundResponse constructor.
+     *
+     * @param string|null $html
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param string $charset
+     * @param array $headers
+     * @param string $version
+     */
+	public function __construct(string $html = null, int $code = 404, string $reasonPhrase = '',
+        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
 	{
-		parent::__construct($html ?? '', $charset, 404, $headers, $version, $reason);
+		parent::__construct(
+		    $html ?? '',
+            $code,
+            $reasonPhrase,
+            $charset,
+            $headers,
+            $version
+        );
 	}
 }

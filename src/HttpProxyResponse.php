@@ -35,6 +35,7 @@ use function GuzzleHttp\Psr7\stream_for;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
 class HttpProxyResponse extends Response
 {
@@ -59,31 +60,13 @@ class HttpProxyResponse extends Response
      * ProxyResponse constructor.
      *
      * @param string $remoteUrl
-     * @param int $status
+     * @param int $code
+     * @param string $reasonPhrase
      * @param array $headers
      * @param string $version
-     * @param null|string $reason
-     * @throws ResponseException
      */
-    public function __construct(string $remoteUrl, int $status = 200, array $headers = [],
-        string $version = '1.1', ?string $reason = null)
-    {
-        $this->setRemoteUrl($remoteUrl);
-
-        parent::__construct(
-            $status,
-            $this->importHttpHeader($headers),
-            $this->getStream(),
-            $version,
-            $reason
-        );
-    }
-
-    /**
-     * @param string $remoteUrl
-     * @throws ResponseException
-     */
-    private function setRemoteUrl(string $remoteUrl):void
+    public function __construct(string $remoteUrl, int $code = 200, string $reasonPhrase = '',
+        array $headers = [], string $version = '1.1')
     {
         if (!filter_var($remoteUrl, FILTER_VALIDATE_URL)) {
             throw new ResponseException(
@@ -92,6 +75,14 @@ class HttpProxyResponse extends Response
             );
         }
         $this->remoteUrl = $remoteUrl;
+
+        parent::__construct(
+            $code,
+            $this->importHttpHeader($headers),
+            $this->getStream(),
+            $version,
+            $reasonPhrase
+        );
     }
 
     /**

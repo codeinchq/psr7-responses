@@ -32,27 +32,27 @@ use Psr\Http\Message\StreamInterface;
  * @see FileResponseTest
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
 class FileResponse extends StreamResponse
 {
-	public const DEFAULT_MIME_TYPE = 'application/octet-stream';
-
     /**
      * FileResponse constructor.
      *
      * @param string|resource|StreamInterface $file
-     * @param null|string $fileName
+     * @param string $fileName
+     * @param int $code
+     * @param string $reasonPhrase
      * @param null|string $contentType
      * @param bool $asAttachment
-     * @param int $status
      * @param array $headers
      * @param string $version
-     * @param null|string $reason
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
      */
-	public function __construct($file, string $fileName, ?string $contentType = null,
-		bool $asAttachment = true, int $status = 200, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+	public function __construct($file, string $fileName, int $code = 200, string $reasonPhrase = '',
+        ?string $contentType = null, bool $asAttachment = true, array $headers = [], string $version = '1.1')
 	{
 	    if (is_string($file)) {
             if (!is_file($file)) {
@@ -75,14 +75,14 @@ class FileResponse extends StreamResponse
 
 		parent::__construct(
 			$stream,
-			$contentType ?? MediaTypes::getFilenameMediaType($fileName, self::DEFAULT_MIME_TYPE),
+			$code,
+			$reasonPhrase,
+			$contentType ?? MediaTypes::getFilenameMediaType($fileName, 'application/octet-stream'),
 			null,
 			$fileName,
 			$asAttachment,
-			$status,
 			$headers,
-			$version,
-			$reason
+			$version
 		);
 	}
 }

@@ -31,38 +31,37 @@ use GuzzleHttp\Psr7\Response;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
-class HtmlResponse extends Response
+class HtmlResponse extends Response implements CharsetResponseInterface
 {
-	public const DEFAULT_CHARSET = "utf-8";
-
     /**
      * @var string
      */
 	private $html;
 
     /**
-     * @var null|string
+     * @var string
      */
 	private $charset;
 
-	/**
-	 * HtmlResponse constructor.
-	 *
-	 * @param string $html
-	 * @param null|string $charset
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct(string $html, ?string $charset = null, int $status = 200, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+    /**
+     * HtmlResponse constructor.
+     *
+     * @param string $html
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param string $charset
+     * @param array $headers
+     * @param string $version
+     */
+	public function __construct(string $html, int $code = 200, string $reasonPhrase = '',
+        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
 	{
-		$headers["Content-Type"] = "text/html; charset=".($charset ?? self::DEFAULT_CHARSET);
+		$headers['Content-Type'] = sprintf('text/html; charset=%s', $charset);
 		$this->html = $html;
 		$this->charset = $charset;
-		parent::__construct($status, $headers, $html, $version, $reason);
+		parent::__construct($code, $headers, $html, $version, $reasonPhrase);
 	}
 
     /**
@@ -76,9 +75,10 @@ class HtmlResponse extends Response
     }
 
     /**
-     * @return null|string
+     * @inheritdoc
+     * @return string
      */
-    public function getCharset():?string
+    public function getCharset():string
     {
         return $this->charset;
     }

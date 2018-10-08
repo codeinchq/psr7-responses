@@ -31,6 +31,9 @@ use CodeInc\Psr7Responses\Tests\ErrorResponseTest;
  * @uses ErrorResponseTest
  * @package CodeInc\Psr7Responses
  * @author Joan Fabrégat <joan@codeinc.fr>
+ * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
+ * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
 class ErrorResponse extends HtmlResponse
 {
@@ -39,23 +42,29 @@ class ErrorResponse extends HtmlResponse
      */
     private $error;
 
-	/**
-	 * ErrorResponse constructor.
-	 *
-	 * @param \Throwable $error
-	 * @param null|string $charset
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct(\Throwable $error, ?string $charset = null,
-        int $status = 500, array $headers = [], string $version = '1.1',
-        ?string $reason = null)
+    /**
+     * ErrorResponse constructor.
+     *
+     * @param \Throwable $error
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param string $charset
+     * @param array $headers
+     * @param string $version
+     * @throws \ReflectionException
+     */
+	public function __construct(\Throwable $error, int $code = 200, string $reasonPhrase = '',
+        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
 	{
 	    $this->error = $error;
-		parent::__construct((new HtmlErrorRenderer($error))->get(),
-			$charset, $status, $headers, $version, $reason);
+		parent::__construct(
+		    (new HtmlErrorRenderer($error))->get(),
+			$code,
+            $reasonPhrase,
+            $charset,
+            $headers,
+            $version
+        );
 	}
 
     /**

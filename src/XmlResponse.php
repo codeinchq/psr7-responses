@@ -31,38 +31,37 @@ use GuzzleHttp\Psr7\Response;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
-class XmlResponse extends Response
+class XmlResponse extends Response implements CharsetResponseInterface
 {
-	public const DEFAULT_CHARSET = "utf-8";
-
     /**
      * @var string
      */
 	private $xml;
 
     /**
-     * @var null|string
+     * @var string
      */
 	private $charset;
 
-	/**
-	 * TextResponse constructor.
-	 *
-	 * @param string $xml
-	 * @param string|null $charset
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct(string $xml, ?string $charset = null, int $status = 200, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+    /**
+     * TextResponse constructor.
+     *
+     * @param string $xml
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param string $charset
+     * @param array $headers
+     * @param string $version
+     */
+	public function __construct(string $xml, int $code = 200, string $reasonPhrase = '',
+        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
 	{
 	    $this->xml = $xml;
 	    $this->charset = $charset;
-		$headers["Content-Type"] = "application/xml; charset=".($charset ?? self::DEFAULT_CHARSET);
-		parent::__construct($status, $headers, $xml, $version, $reason);
+		$headers['Content-Type'] = sprintf('application/xml; charset=%s', $charset);
+		parent::__construct($code, $headers, $xml, $version, $reasonPhrase);
 	}
 
     /**
@@ -74,9 +73,10 @@ class XmlResponse extends Response
     }
 
     /**
-     * @return null|string
+     * @inheritdoc
+     * @return string
      */
-    public function getCharset():?string
+    public function getCharset():string
     {
         return $this->charset;
     }
