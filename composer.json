@@ -1,12 +1,13 @@
 {
   "name": "codeinc/psr7-responses",
-  "version": "1.4.5",
+  "version": "2.0.0",
   "description": "A collection of PSR-7 responses",
   "homepage": "https://github.com/CodeIncHQ/Psr7Responses",
   "type": "library",
   "license": "MIT",
   "require": {
     "php": ">=7.1",
+    "ext-json": "*",
     "psr/http-message": "^1.0",
     "guzzlehttp/psr7": "^1.4",
     "codeinc/error-renderer": "^1.1",

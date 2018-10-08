@@ -31,38 +31,36 @@ use GuzzleHttp\Psr7\Response;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
-class TextResponse extends Response
+class TextResponse extends Response implements CharsetResponseInterface
 {
-	public const DEFAULT_CHARSET = "utf-8";
-
     /**
      * @var string
      */
 	private $text;
 
     /**
-     * @var null|string
+     * @var string
      */
 	private $charset;
 
-	/**
-	 * TextResponse constructor.
-	 *
-	 * @param string $text
-	 * @param string|null $charset
-	 * @param int $status
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct(string $text, ?string $charset = null, int $status = 200, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+    /**
+     * TextResponse constructor.
+     *
+     * @param string $text
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param string $charset
+     * @param array $headers
+     * @param string $version
+     */
+	public function __construct(string $text, int $code = 200, string $reasonPhrase = '',
+        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
 	{
-	    $this->text = $text;
 	    $this->charset = $charset;
-		$headers["Content-Type"] = "text/plain; charset=".($charset ?? self::DEFAULT_CHARSET);
-		parent::__construct($status, $headers, $text, $version, $reason);
+		$headers['Content-Type'] = sprintf('text/plain; charset=%s', $charset);
+		parent::__construct($code, $headers, $text, $version, $reasonPhrase);
 	}
 
     /**
@@ -74,9 +72,10 @@ class TextResponse extends Response
     }
 
     /**
-     * @return null|string
+     * @inheritdoc
+     * @return string
      */
-    public function getCharset():?string
+    public function getCharset():string
     {
         return $this->charset;
     }

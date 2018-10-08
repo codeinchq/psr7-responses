@@ -33,6 +33,7 @@ use Psr\Http\Message\StreamInterface;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
 class StreamResponse extends Response
 {
@@ -44,7 +45,7 @@ class StreamResponse extends Response
     /**
      * @var null|string
      */
-    private $charset;
+    private $contentType;
 
     /**
      * @var int|null
@@ -66,21 +67,21 @@ class StreamResponse extends Response
      *
      * @uses stream_for()
      * @param resource|string|null|int|float|bool|StreamInterface|callable $dataSource
+     * @param int $code
+     * @param string $reasonPhrase
      * @param null|string $contentType
      * @param int|null $contentLength
      * @param null|string $fileName
      * @param bool $asAttachment
-     * @param int $status
      * @param array $headers
      * @param string $version
-     * @param null|string $reason
      */
-	public function __construct($dataSource, ?string $contentType = null, ?int $contentLength = null,
-		?string $fileName = null, bool $asAttachment = false, int $status = 200, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+	public function __construct($dataSource, int $code = 200, string $reasonPhrase = '',
+        ?string $contentType = null, ?int $contentLength = null, ?string $fileName = null,
+        bool $asAttachment = false, array $headers = [], string $version = '1.1')
 	{
 		$this->stream = stream_for($dataSource);
-        $this->charset = $contentType;
+        $this->contentType = $contentType;
         $this->contentLength = $contentLength;
         $this->fileName = $fileName;
         $this->asAttachment = $asAttachment;
@@ -97,7 +98,7 @@ class StreamResponse extends Response
 			$headers["Content-Length"] = $contentLength;
 		}
 
-		parent::__construct($status, $headers, $this->stream, $version, $reason);
+		parent::__construct($code, $headers, $this->stream, $version, $reasonPhrase);
 	}
 
     /**
@@ -111,17 +112,17 @@ class StreamResponse extends Response
     }
 
     /**
-     * Returns the mime type if set or null.
+     * Returns the response's content type or NULL if not set.
      *
      * @return null|string
      */
-    public function getCharset():?string
+    public function getContentType():?string
     {
-        return $this->charset;
+        return $this->contentType;
     }
 
     /**
-     * Returns the content length if set or null.
+     * Returns the response's content's length or NULL if not set.
      *
      * @return int|null
      */
@@ -131,7 +132,7 @@ class StreamResponse extends Response
     }
 
     /**
-     * Returns the file name if set or null.
+     * Returns the response's filename or NULL if not set.
      *
      * @return null|string
      */
@@ -141,7 +142,7 @@ class StreamResponse extends Response
     }
 
     /**
-     * Verify if the response must be downloaded.
+     * Verify if the response must be treated as an attachment.
      *
      * @return bool
      */

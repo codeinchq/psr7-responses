@@ -31,44 +31,42 @@ use GuzzleHttp\Psr7\Response;
  * @author Joan Fabrégat <joan@codeinc.fr>
  * @license MIT <https://github.com/CodeIncHQ/Psr7Responses/blob/master/LICENSE>
  * @link https://github.com/CodeIncHQ/Psr7Responses
+ * @version 2
  */
-class JsonResponse extends Response
+class JsonResponse extends Response implements CharsetResponseInterface
 {
-	public const DEFAULT_CHARSET = "utf-8";
-
     /**
      * @var string
      */
 	private $json;
 
     /**
-     * @var null|string
+     * @var string
      */
 	private $charset;
 
-	/**
-	 * TextResponse constructor.
-	 *
-	 * @param string|array|object $json
-	 * @param int $status
-     * @param string|null $charset
-	 * @param array $headers
-	 * @param string $version
-	 * @param null|string $reason
-	 */
-	public function __construct($json, int $status = 200, ?string $charset = null, array $headers = [],
-		string $version = '1.1', ?string $reason = null)
+    /**
+     * TextResponse constructor.
+     *
+     * @param string $json
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param string $charset
+     * @param array $headers
+     * @param string $version
+     */
+	public function __construct(string $json, int $code = 200, string $reasonPhrase = '',
+        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
 	{
-		if (!is_string($json)) {
-			$json = json_encode($json);
-		}
 		$this->json = $json;
 		$this->charset = $charset;
-		$headers["Content-Type"] = "application/json; charset=".($charset ?? self::DEFAULT_CHARSET);
-		parent::__construct($status, $headers, $json, $version, $reason);
+		$headers['Content-Type'] = sprintf('application/json; charset=%s', $charset);
+		parent::__construct($code, $headers, $json, $version, $reasonPhrase);
 	}
 
     /**
+     * Returns the raw JSON string
+     *
      * @return string
      */
     public function getJson():string
@@ -77,10 +75,13 @@ class JsonResponse extends Response
     }
 
     /**
+     * Returns the decoded JSON string.
+     *
+     * @uses json_decode()
      * @return array
      * @throws ResponseException
      */
-    public function getJsonAsArray():array
+    public function getDecodedJson():array
     {
         if (!($array = json_decode($this->json, true))) {
             throw new ResponseException("Unable to decode the response's JSON", $this);
@@ -89,9 +90,10 @@ class JsonResponse extends Response
     }
 
     /**
-     * @return null|string
+     * @inheritdoc
+     * @return string
      */
-    public function getCharset():?string
+    public function getCharset():string
     {
         return $this->charset;
     }
