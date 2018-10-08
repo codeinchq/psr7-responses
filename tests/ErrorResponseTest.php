@@ -36,6 +36,9 @@ use CodeInc\Psr7Responses\Tests\Assets\FakeException;
  */
 class ErrorResponseTest extends AbstractResponseTestCase
 {
+    /**
+     * @throws \ReflectionException
+     */
     public function test():void
     {
         $response = new ErrorResponse(new FakeException('Test'));
