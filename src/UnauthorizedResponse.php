@@ -39,13 +39,12 @@ class UnauthorizedResponse extends HtmlResponse
      * @param string $html
      * @param int $code
      * @param string $reasonPhrase
-     * @param string $charset
      * @param array $headers
      * @param string $version
      */
 	public function __construct(string $html = '', int $code = 401, string $reasonPhrase = '',
-        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
+        array $headers = self::DEFAULT_HEADERS, string $version = '1.1')
 	{
-		parent::__construct($html, $code, $reasonPhrase, $charset, $headers, $version);
+		parent::__construct($html, $code, $reasonPhrase, $headers, $version);
 	}
 }

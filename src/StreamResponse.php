@@ -43,62 +43,19 @@ class StreamResponse extends Response
     private $stream;
 
     /**
-     * @var null|string
-     */
-    private $contentType;
-
-    /**
-     * @var int|null
-     */
-    private $contentLength;
-
-    /**
-     * @var null|string
-     */
-    private $fileName;
-
-    /**
-     * @var bool
-     */
-    private $asAttachment;
-
-    /**
      * StreamResponse constructor.
      *
-     * @uses stream_for()
-     * @param resource|string|null|int|float|bool|StreamInterface|callable $dataSource
+     * @param StreamInterface $stream
      * @param int $code
      * @param string $reasonPhrase
-     * @param null|string $contentType
-     * @param int|null $contentLength
-     * @param null|string $fileName
-     * @param bool $asAttachment
      * @param array $headers
      * @param string $version
      */
-	public function __construct($dataSource, int $code = 200, string $reasonPhrase = '',
-        ?string $contentType = null, ?int $contentLength = null, ?string $fileName = null,
-        bool $asAttachment = false, array $headers = [], string $version = '1.1')
+	public function __construct(StreamInterface $stream, int $code = 200, string $reasonPhrase = '',
+        array $headers = [], string $version = '1.1')
 	{
-		$this->stream = stream_for($dataSource);
-        $this->contentType = $contentType;
-        $this->contentLength = $contentLength;
-        $this->fileName = $fileName;
-        $this->asAttachment = $asAttachment;
-
-		// adding headers
-		if ($contentType) {
-			$headers["Content-Type"] = $contentType;
-		}
-		$headers["Content-Disposition"] = $asAttachment ? "attachment" : "inline";
-		if ($fileName) {
-			$headers["Content-Disposition"] .= sprintf("; filename=\"%s\"", $fileName);
-		}
-		if ($contentLength !== null || ($contentLength = $this->stream->getSize()) !== null) {
-			$headers["Content-Length"] = $contentLength;
-		}
-
-		parent::__construct($code, $headers, $this->stream, $version, $reasonPhrase);
+		$this->stream = $stream;
+		parent::__construct($code, $headers, $stream, $version, $reasonPhrase);
 	}
 
     /**
@@ -109,45 +66,5 @@ class StreamResponse extends Response
     public function getStream():StreamInterface
     {
         return $this->stream;
-    }
-
-    /**
-     * Returns the response's content type or NULL if not set.
-     *
-     * @return null|string
-     */
-    public function getContentType():?string
-    {
-        return $this->contentType;
-    }
-
-    /**
-     * Returns the response's content's length or NULL if not set.
-     *
-     * @return int|null
-     */
-    public function getContentLength():?int
-    {
-        return $this->contentLength;
-    }
-
-    /**
-     * Returns the response's filename or NULL if not set.
-     *
-     * @return null|string
-     */
-    public function getFileName():?string
-    {
-        return $this->fileName;
-    }
-
-    /**
-     * Verify if the response must be treated as an attachment.
-     *
-     * @return bool
-     */
-    public function isAsAttachment():bool
-    {
-        return $this->asAttachment;
     }
 }

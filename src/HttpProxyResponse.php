@@ -52,16 +52,16 @@ class HttpProxyResponse extends Response
     /**
      * @var string[]
      */
-    private $acceptableResponseHeaders = [
-        'content-type',
-        'content-length',
-        'content-disposition',
-        'date',
-        'last-modified',
-        'etag',
-        'pragma',
-        'expires',
-        'cache-control'
+    private $acceptableProxyHeaders = [
+        'Content-Type',
+        'Content-Length',
+        'Content-Disposition',
+        'Date',
+        'Last-Modified',
+        'Etag',
+        'Pragma',
+        'Expires',
+        'Cache-Control'
     ];
 
     /**
@@ -75,10 +75,7 @@ class HttpProxyResponse extends Response
     public function __construct(string $remoteUrl, array $headers = [], string $version = '1.1')
     {
         if (!filter_var($remoteUrl, FILTER_VALIDATE_URL)) {
-            throw new ResponseException(
-                sprintf("%s is not a valid URL", $remoteUrl),
-                $this
-            );
+            throw new \RuntimeException(sprintf("%s is not a valid URL", $remoteUrl));
         }
         $this->remoteUrl = $remoteUrl;
 
@@ -115,7 +112,7 @@ class HttpProxyResponse extends Response
     {
         $headers = [];
         foreach ($this->getResponse()->getHeaders() as $header => $values) {
-            if (in_array(strtolower($header), $this->acceptableResponseHeaders)) {
+            if (preg_grep('/^'.preg_quote($header, '$/').'/ui', $this->acceptableProxyHeaders)) {
                 $headers[$header] = $values;
             }
         }
@@ -125,17 +122,17 @@ class HttpProxyResponse extends Response
     /**
      * @return string[]
      */
-    public function getAcceptableResponseHeaders():array
+    public function getAcceptableProxyHeaders():array
     {
-        return $this->acceptableResponseHeaders;
+        return $this->acceptableProxyHeaders;
     }
 
     /**
-     * @param string[] $acceptableResponseHeaders
+     * @param string[] $acceptableProxyHeaders
      */
-    public function setAcceptableResponseHeaders(array $acceptableResponseHeaders):void
+    public function setAcceptableProxyHeaders(array $acceptableProxyHeaders):void
     {
-        $this->acceptableResponseHeaders = $acceptableResponseHeaders;
+        $this->acceptableProxyHeaders = $acceptableProxyHeaders;
     }
 
     /**

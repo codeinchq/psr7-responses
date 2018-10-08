@@ -21,8 +21,7 @@
 //
 declare(strict_types=1);
 namespace CodeInc\Psr7Responses\Tests;
-use CodeInc\Psr7Responses\FileResponse;
-use CodeInc\Psr7Responses\LocalFileResponse;
+use CodeInc\Psr7Responses\StreamResponse;
 
 
 /**
@@ -38,11 +37,10 @@ class LocalFileResponseTest extends AbstractResponseTestCase
 {
     /**
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
-     * @throws \CodeInc\Psr7Responses\ResponseException
      */
     public function test():void
     {
-        $response = new LocalFileResponse(__DIR__.'/Assets/file.txt');
+        $response = StreamResponse::localFileFactory(__DIR__.'/Assets/file.txt');
         self::assertIsResponse($response);
         self::assertResponseStatusCode(200, $response);
         self::assertResponseHasBody($response);

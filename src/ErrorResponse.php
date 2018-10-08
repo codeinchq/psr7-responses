@@ -48,20 +48,18 @@ class ErrorResponse extends HtmlResponse
      * @param \Throwable $error
      * @param int $code
      * @param string $reasonPhrase
-     * @param string $charset
      * @param array $headers
      * @param string $version
      * @throws \ReflectionException
      */
 	public function __construct(\Throwable $error, int $code = 200, string $reasonPhrase = '',
-        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
+        array $headers = self::DEFAULT_HEADERS, string $version = '1.1')
 	{
 	    $this->error = $error;
 		parent::__construct(
 		    (new HtmlErrorRenderer($error))->get(),
 			$code,
             $reasonPhrase,
-            $charset,
             $headers,
             $version
         );
