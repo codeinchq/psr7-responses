@@ -44,9 +44,9 @@ class LocalFileResponse extends FileResponse
      * @param string $version
      * @throws \CodeInc\MediaTypes\Exceptions\MediaTypesException
      */
-    public function __construct(string $filePath, int $code = 200, string $reasonPhrase = '', ?string $fileName = null,
-        ?string $contentType = null, ?int $contentLength = null, bool $asAttachment = true,
-        array $headers = [], string $version = '1.1')
+    public function __construct(string $filePath, int $code = 200, string $reasonPhrase = '',
+        ?string $fileName = null, ?string $contentType = null, ?int $contentLength = null,
+        bool $asAttachment = true, array $headers = [], string $version = '1.1')
     {
         // opening the local file
         if (!is_file($filePath)) {
