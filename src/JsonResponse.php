@@ -33,17 +33,16 @@ use GuzzleHttp\Psr7\Response;
  * @link https://github.com/CodeIncHQ/Psr7Responses
  * @version 2
  */
-class JsonResponse extends Response implements CharsetResponseInterface
+class JsonResponse extends Response
 {
-    /**
-     * @var string
-     */
-	private $json;
+    public const DEFAULT_HEADERS = [
+        'Content-Type' => 'application/json; charset=utf-8'
+    ];
 
     /**
      * @var string
      */
-	private $charset;
+	private $json;
 
     /**
      * TextResponse constructor.
@@ -51,16 +50,13 @@ class JsonResponse extends Response implements CharsetResponseInterface
      * @param string $json
      * @param int $code
      * @param string $reasonPhrase
-     * @param string $charset
      * @param array $headers
      * @param string $version
      */
 	public function __construct(string $json, int $code = 200, string $reasonPhrase = '',
-        string $charset = 'utf-8', array $headers = [], string $version = '1.1')
+        array $headers = self::DEFAULT_HEADERS, string $version = '1.1')
 	{
 		$this->json = $json;
-		$this->charset = $charset;
-		$headers['Content-Type'] = sprintf('application/json; charset=%s', $charset);
 		parent::__construct($code, $headers, $json, $version, $reasonPhrase);
 	}
 
@@ -79,24 +75,12 @@ class JsonResponse extends Response implements CharsetResponseInterface
      *
      * @uses json_decode()
      * @return array
-     * @throws ResponseException
      */
     public function getDecodedJson():array
     {
         if (!($array = json_decode($this->json, true))) {
-            throw new ResponseException("Unable to decode the response's JSON", $this);
+            throw new \RuntimeException("Unable to decode the response's JSON");
         }
         return json_decode($this->json, true);
     }
-
-    /**
-     * @inheritdoc
-     * @return string
-     */
-    public function getCharset():string
-    {
-        return $this->charset;
-    }
-
-
 }

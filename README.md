@@ -10,6 +10,7 @@ This PHP 7.1 library provides a collection of [PSR-7](https://www.php-fig.org/ps
 * [`HtmlResponse`](src/HtmlResponse.php)
 * [`HttpProxyResponse`](src/HttpProxyResponse.php)
 * [`JsonResponse`](src/JsonResponse.php)
+* [`LocalFileResponse`](src/LocalFileResponse.php)
 * [`NotFoundResponse`](src/NotFoundResponse.php)
 * [`RedirectResponse`](src/RedirectResponse.php)
 * [`StreamResponse`](src/StreamResponse.php)

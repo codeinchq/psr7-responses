@@ -39,7 +39,7 @@ class EmptyResponse extends Response
      * @param array $headers
      * @param string $version
      */
-    public function __construct(int $code = 404, string $reasonPhrase = '',
+    public function __construct(int $code = 200, string $reasonPhrase = '',
         array $headers = [], string $version = '1.1')
     {
         parent::__construct($code, $headers, '', $version, $reasonPhrase);

@@ -39,7 +39,7 @@ final class HttpProxyResponseTest extends AbstractResponseTestCase
     private const TEST_IMG_URL = 'https://www.sample-videos.com/img/Sample-jpg-image-50kb.jpg';
 
     /**
-     * @throws \CodeInc\Psr7Responses\ResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testTxtResponse():void
     {
@@ -48,8 +48,9 @@ final class HttpProxyResponseTest extends AbstractResponseTestCase
         self::assertResponseStatusCode(200, $response);
         self::assertResponseHasBody($response);
     }
+
     /**
-     * @throws \CodeInc\Psr7Responses\ResponseException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function testImgResponse():void
     {
