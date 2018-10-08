@@ -1,6 +1,6 @@
 {
   "name": "codeinc/psr7-responses",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A collection of PSR-7 responses",
   "homepage": "https://github.com/CodeIncHQ/Psr7Responses",
   "type": "library",
@@ -15,7 +15,8 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^7",
-    "codeinc/psr7-response-sender": "^1.1"
+    "codeinc/psr7-response-sender": "^1.1",
+    "guzzlehttp/guzzle": "^6"
   },
   "autoload": {
     "psr-4": {"CodeInc\\Psr7Responses\\": "src/"}
@@ -35,7 +36,8 @@
     "codeinc/psr7-response-sender": "A library to send PSR-7 responses to the web browser",
     "codeinc/psr15-middlewares": "Provides a collection of PSR15 middlewares",
     "hansott/psr7-cookies": "Adds cookies into a PSR7 response",
-    "micheh/psr7-cache": "Adds cache HTTP headers to responses"
+    "micheh/psr7-cache": "Adds cache HTTP headers to responses",
+    "guzzlehttp/guzzle": "Required in order to use HttpProxyResponse"
   },
   "config": {
     "preferred-install": {
