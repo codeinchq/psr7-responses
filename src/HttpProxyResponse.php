@@ -22,9 +22,9 @@
 declare(strict_types=1);
 namespace CodeInc\Psr7Responses;
 use CodeInc\Psr7Responses\Tests\HttpProxyResponseTest;
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use GuzzleHttp\Psr7\Stream;
-use function GuzzleHttp\Psr7\stream_for;
+use Psr\Http\Message\ResponseInterface;
 
 
 /**
@@ -39,7 +39,20 @@ use function GuzzleHttp\Psr7\stream_for;
  */
 class HttpProxyResponse extends Response
 {
-    protected const IMPORT_HEADERS = [
+    /**
+     * @var string
+     */
+    private $remoteUrl;
+
+    /**
+     * @var ResponseInterface
+     */
+    private $response;
+
+    /**
+     * @var string[]
+     */
+    private $acceptableResponseHeaders = [
         'content-type',
         'content-length',
         'content-disposition',
@@ -52,21 +65,14 @@ class HttpProxyResponse extends Response
     ];
 
     /**
-     * @var string
-     */
-    private $remoteUrl;
-
-    /**
      * ProxyResponse constructor.
      *
      * @param string $remoteUrl
-     * @param int $code
-     * @param string $reasonPhrase
      * @param array $headers
      * @param string $version
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function __construct(string $remoteUrl, int $code = 200, string $reasonPhrase = '',
-        array $headers = [], string $version = '1.1')
+    public function __construct(string $remoteUrl, array $headers = [], string $version = '1.1')
     {
         if (!filter_var($remoteUrl, FILTER_VALIDATE_URL)) {
             throw new ResponseException(
@@ -77,12 +83,59 @@ class HttpProxyResponse extends Response
         $this->remoteUrl = $remoteUrl;
 
         parent::__construct(
-            $code,
-            $this->importHttpHeader($headers),
-            $this->getStream(),
+            $this->getResponse()->getStatusCode(),
+            $this->getResponseHeaders() + $headers,
+            $this->getResponse()->getBody(),
             $version,
-            $reasonPhrase
+            $this->getResponse()->getReasonPhrase()
         );
+    }
+
+    /**
+     * Returns the HTTP response.
+     *
+     * @return ResponseInterface
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getResponse():ResponseInterface
+    {
+        if (!$this->response) {
+            $this->response = (new Client())->request('GET', $this->remoteUrl);
+        }
+        return $this->response;
+    }
+
+    /**
+     * Returns all the imported headers from the HTTP response.
+     *
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getResponseHeaders():array
+    {
+        $headers = [];
+        foreach ($this->getResponse()->getHeaders() as $header => $values) {
+            if (in_array(strtolower($header), $this->acceptableResponseHeaders)) {
+                $headers[$header] = $values;
+            }
+        }
+        return $headers;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getAcceptableResponseHeaders():array
+    {
+        return $this->acceptableResponseHeaders;
+    }
+
+    /**
+     * @param string[] $acceptableResponseHeaders
+     */
+    public function setAcceptableResponseHeaders(array $acceptableResponseHeaders):void
+    {
+        $this->acceptableResponseHeaders = $acceptableResponseHeaders;
     }
 
     /**
@@ -93,37 +146,5 @@ class HttpProxyResponse extends Response
     public function getRemoteUrl():string
     {
         return $this->remoteUrl;
-    }
-
-    /**
-     * @return Stream
-     * @throws ResponseException
-     */
-    private function getStream():Stream
-    {
-        $context = stream_context_create(['http' => ['method' => 'GET']]);
-        if (($f = fopen($this->remoteUrl, 'r', false, $context)) === false) {
-            throw new ResponseException(
-                sprintf("Unable to open the URL %s", $this->remoteUrl),
-                $this
-            );
-        }
-        return stream_for($f);
-    }
-
-    /**
-     * @param array $headers
-     * @return array
-     */
-    private function importHttpHeader(array $headers):array
-    {
-        foreach ($http_response_header as $header) {
-            if (preg_match('/^([\\w-]+): +(.+)$/ui', $header, $matches)) {
-                if (in_array(strtolower($matches[1]), self::IMPORT_HEADERS)) {
-                    $headers[$matches[1]] = $matches[2];
-                }
-            }
-        }
-        return $headers;
     }
 }
