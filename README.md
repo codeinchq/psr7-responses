@@ -3,7 +3,7 @@
 This PHP 7.1 library provides a collection of [PSR-7](https://www.php-fig.org/psr/psr-7/) compatible responses based on the [Guzzle implementation](https://github.com/guzzle/psr7).
 
 **The collection includes:**
-* [`DebugResponse`](src/DebugResponse.php)
+* [`EmptyResponse`](src/EmptyResponse.php)
 * [`ErrorResponse`](src/ErrorResponse.php)
 * [`FileResponse`](src/FileResponse.php)
 * [`ForbiddenResponse`](src/ForbiddenResponse.php)
