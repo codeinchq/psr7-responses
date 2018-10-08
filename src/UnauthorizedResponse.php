@@ -36,7 +36,7 @@ class UnauthorizedResponse extends HtmlResponse
     /**
      * UnauthorizedResponse constructor.
      *
-     * @param string|null $html
+     * @param string $html
      * @param int $code
      * @param string $reasonPhrase
      * @param string $charset

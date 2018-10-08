@@ -21,7 +21,6 @@
 //
 declare(strict_types = 1);
 namespace CodeInc\Psr7Responses;
-use GuzzleHttp\Psr7\Response;
 
 
 /**
@@ -33,7 +32,7 @@ use GuzzleHttp\Psr7\Response;
  * @link https://github.com/CodeIncHQ/Psr7Responses
  * @version 2
  */
-class RedirectResponse extends Response
+class RedirectResponse extends EmptyResponse
 {
     /**
      * @var string
@@ -53,8 +52,12 @@ class RedirectResponse extends Response
         array $headers = [], string $version = '1.1')
 	{
 	    $this->url = $url;
-		$headers["Location"] = $url;
-		parent::__construct($code, $headers, $version, $reasonPhrase);
+		parent::__construct(
+		    $code,
+            $reasonPhrase,
+            $headers + ['Location' => $url],
+            $version
+        );
 	}
 
     /**
