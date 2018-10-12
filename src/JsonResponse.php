@@ -45,7 +45,7 @@ class JsonResponse extends Response
 	private $json;
 
     /**
-     * TextResponse constructor.
+     * JsonResponse constructor.
      *
      * @param string $json
      * @param int $code
@@ -59,6 +59,40 @@ class JsonResponse extends Response
 		$this->json = $json;
 		parent::__construct($code, $headers, $json, $version, $reasonPhrase);
 	}
+
+    /**
+     * @param array $array
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param array $headers
+     * @param string $version
+     * @return JsonResponse
+     */
+    public static function fromArray(array $array, int $code = 200, string $reasonPhrase = '',
+        array $headers = self::DEFAULT_HEADERS, string $version = '1.1'):self
+    {
+        if (($json = json_encode($array)) === false) {
+            throw new \RuntimeException("Error while encoding the array to JSON using json_encode().");
+        }
+        return new self($json, $code, $reasonPhrase, $headers, $version);
+    }
+
+    /**
+     * @param object $object
+     * @param int $code
+     * @param string $reasonPhrase
+     * @param array $headers
+     * @param string $version
+     * @return JsonResponse
+     */
+    public static function fromObject(object $object, int $code = 200, string $reasonPhrase = '',
+        array $headers = self::DEFAULT_HEADERS, string $version = '1.1'):self
+    {
+        if (($json = json_encode($object)) === false) {
+            throw new \RuntimeException("Error while encoding the object to JSON using json_encode().");
+        }
+        return new self($json, $code, $reasonPhrase, $headers, $version);
+    }
 
     /**
      * Returns the raw JSON string
